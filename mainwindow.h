@@ -50,12 +50,6 @@ private:
      */
     Worker *worker;
 
-signals:
-    /**
-     * @brief This signal is used to abort thread so it finishes almost immediately.
-     */
-    void abortThread();
-
 private slots:
     void on_startButton_clicked();
 
