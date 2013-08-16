@@ -60,12 +60,8 @@ void Worker::doWork()
         }
 
         // This will stupidly wait 1 sec doing nothing...
-        QTimer timer;
-        timer.setSingleShot(true);
-        timer.setInterval(1000);
         QEventLoop loop;
-        connect(&timer, SIGNAL(timeout()), &loop, SLOT(quit()));
-        timer.start();
+        QTimer::singleShot(1000, &loop, SLOT(quit()));
         loop.exec();
 
         // Once we're done waiting, value is updated
