@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     worker->moveToThread(thread);
     connect(worker, SIGNAL(valueChanged(QString)), ui->label, SLOT(setText(QString)));
+    connect(worker, SIGNAL(workRequested()), thread, SLOT(start()));
     connect(thread, SIGNAL(started()), worker, SLOT(doWork()));
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()), Qt::DirectConnection);
 }
@@ -56,5 +57,5 @@ void MainWindow::on_startButton_clicked()
     worker->abort();
     thread->wait(); // If the thread is not running, this will immediately return.
 
-    thread->start();
+    worker->requestWork();
 }

@@ -32,6 +32,12 @@ class Worker : public QObject
 public:
     explicit Worker(QObject *parent = 0);
     /**
+     * @brief Requests the process to start
+     *
+     * It is thread safe as it uses #mutex to protect access to #_working variable.
+     */
+    void requestWork();
+    /**
      * @brief Requests the process to abort
      *
      * It is thread safe as it uses #mutex to protect access to #_abort variable.
@@ -44,11 +50,20 @@ private:
      */
     bool _abort;
     /**
+     * @brief @em true when Worker is doing work
+     */
+    bool _working;
+    /**
      * @brief Protects access to #_abort
      */
     QMutex mutex;
 
 signals:
+    /**
+     * @brief This signal is emitted when the Worker request to Work
+     * @sa requestWork()
+     */
+    void workRequested();
     /**
      * @brief This signal is emitted when counted value is changed (every sec)
      */
